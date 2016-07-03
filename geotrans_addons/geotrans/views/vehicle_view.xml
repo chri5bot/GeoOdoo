@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="main_menu_geotrans" name="GeoTrans" />
+        <menuitem id="menu_main" name="GeoTrans" parent="main_menu_geotrans"/>
+        <menuitem id="menu_conf" name="Configuración" parent="main_menu_geotrans"/>
+
+        <record id="geotrans_brandvehicle_tree" model="ir.ui.view">
+            <field name="name">gt.brandvehicle.tree</field>
+            <field name="model">gt.brandvehicle</field>
+            <field name="arch" type="xml">
+                <tree string="Marca Vehículo">
+                    <field name="name"/>
+                    <field name="id_modelvehicles"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_brandvehicle_form" model="ir.ui.view">
+            <field name="name">gt.brandvehicle.form</field>
+            <field name="model">gt.brandvehicle</field>
+            <field name="arch" type="xml">
+                <form string="Marca Vehículo" version="7.0">
+                    <sheet>
+                        <group colspan="3">
+                            <field name="name"/>
+                            <field name="id_modelvehicles"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_brandvehicle" model="ir.actions.act_window">
+            <field name="name">Marca Vehículo</field>
+            <field name="res_model">gt.brandvehicle</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotransbrandvehicle" name="Marca Vehículo" parent="menu_conf" action="action_geotrans_brandvehicle"/>
+
+        <record id="geotrans_vehicle_tree" model="ir.ui.view">
+            <field name="name">gt.vehicle.tree</field>
+            <field name="model">gt.vehicle</field>
+            <field name="arch" type="xml">
+                <tree string="Vehículo">
+                    <field name="id_brandvehicles"/>
+                    <field name="cylindercapacity_vehicle"/>
+                    <field name="modelyear_vehicle"/>
+                    <field name="licenseplate_vehicle"/>
+                </tree>
+            </field>
+        </record>
+        <record id="gt_vehicle_form" model="ir.ui.view">
+            <field name="name">gt.vehicle.form</field>
+            <field name="model">gt.vehicle</field>
+            <field name="arch" type="xml">
+                <form string="Vehículo" version="7.0">
+                    <sheet>
+                        <group cols="2">
+                            <label for="photo_vehicle" string="Foto del Vehículo"/>
+                            <label for="photo_licenseplate_vehicle" string="Foto de la Placa"/>
+                        </group>
+                        <group cols="2">
+                            <field name="photo_vehicle" widget="image" class="oe_left oe_avatar"
+                                   options="{'preview_image': 'photo_vehicle_medium', 'size': [100, 100]}" modifiers="{}"
+                                   nolabel="1"/>
+                            <field name="photo_licenseplate_vehicle" widget="image" class="oe_left oe_avatar"
+                                   options="{'preview_image': 'photo_licenseplate_medium', 'size': [100, 100]}" modifiers="{}"
+                                   nolabel="1"/>
+                            <field name="id_brandvehicles"/>
+                            <field name="licenseplate_vehicle"/>
+                            <field name="modelyear_vehicle"/>
+                            <field name="cylindercapacity_vehicle"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_vehicle" model="ir.actions.act_window">
+            <field name="name">Vehículo</field>
+            <field name="res_model">gt.vehicle</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotransvehicle" name="Vehículo" parent="menu_conf" action="action_geotrans_vehicle"/>
+
+        <record id="geotrans_model_tree" model="ir.ui.view">
+            <field name="name">gt.modelvehicle.tree</field>
+            <field name="model">gt.modelvehicle</field>
+            <field name="arch" type="xml">
+                <tree string="Modelo">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_vehicle_form" model="ir.ui.view">
+            <field name="name">gt.modelvehicle.form</field>
+            <field name="model">gt.modelvehicle</field>
+            <field name="arch" type="xml">
+                <form string="Modelo" version="7.0">
+                    <sheet>
+                        <group colspan="3">
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_modelvehicle" model="ir.actions.act_window">
+            <field name="name">Modelo</field>
+            <field name="res_model">gt.modelvehicle</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotransmodelvehicle" name="Modelo" parent="menu_conf" action="action_geotrans_modelvehicle"/>
+    </data>
+</openerp>

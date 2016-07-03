@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="main_menu_geotrans" name="GeoTrans" />
+        <menuitem id="menu_main" name="GeoTrans" parent="main_menu_geotrans"/>
+        <menuitem id="menu_conf_terms" name="Términos y Condiciones" parent="menu_conf" sequence="7"/>
+
+        <record id="geotrans_termsconditions_ps_tree" model="ir.ui.view">
+            <field name="name">gt.termsconditions.ps.tree</field>
+            <field name="model">gt.termsconditions.ps</field>
+            <field name="arch" type="xml">
+                <tree string="Términos y Condiciones Ps">
+                    <field name="id" string='Versión'/>
+                    <field name="state"/>
+                    <field name="date_active"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_termsconditions_ps_form" model="ir.ui.view">
+            <field name="name">gt.termsconditions.ps.form</field>
+            <field name="model">gt.termsconditions.ps</field>
+            <field name="arch" type="xml">
+                <form string="Términos y Condiciones Ps" version="7.0">
+                    <header>
+                        <button name="act_active" string="Activar"
+                                type="object" states="inactive"
+                                confirm="Desea activar esta versión de términos y Condiciones"/>
+                        <field name="state" widget="statusbar" statusbar_visible="active, inactive"/>
+                    </header>
+                    <sheet>
+                        <group colspan="2">
+                            <field name="id" string='Versión'/>
+                            <field name="terms_conditions"/>
+                            <field name="date_active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_termsconditions_ps" model="ir.actions.act_window">
+            <field name="name">Términos y Condiciones Ps</field>
+            <field name="res_model">gt.termsconditions.ps</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotrans_termsconditions_ps" name="Proveedor Servicio" parent="menu_conf_terms" action="action_geotrans_termsconditions_ps"/>
+
+        <record id="geotrans_termsconditions_customer_tree" model="ir.ui.view">
+            <field name="name">gt.termsconditions.customer.tree</field>
+            <field name="model">gt.termsconditions.customer</field>
+            <field name="arch" type="xml">
+                <tree string="Términos y Condiciones Cliente">
+                    <field name="id" string='Versión'/>
+                    <field name="state"/>
+                    <field name="date_active"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_termsconditions_customer_form" model="ir.ui.view">
+            <field name="name">gt.termsconditions.customer.form</field>
+            <field name="model">gt.termsconditions.customer</field>
+            <field name="arch" type="xml">
+                <form string="Términos y Condiciones Cliente" version="7.0">
+                    <header>
+                        <button name="act_active" string="Activar"
+                                type="object" states="inactive"
+                                confirm="Desea activar esta versión de términos y Condiciones"/>
+                        <field name="state" widget="statusbar" statusbar_visible="active, inactive"/>
+                    </header>
+                    <sheet>
+                        <group colspan="2">
+                            <field name="id" string='Versión'/>
+                            <field name="terms_conditions"/>
+                            <field name="date_active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_termsconditions_customer" model="ir.actions.act_window">
+            <field name="name">Términos y Condiciones CLiente</field>
+            <field name="res_model">gt.termsconditions.customer</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotrans_termsconditions_customer" name="Cliente" parent="menu_conf_terms" action="action_geotrans_termsconditions_customer"/>
+    </data>
+</openerp>

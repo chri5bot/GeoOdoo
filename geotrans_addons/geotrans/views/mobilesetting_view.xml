@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="main_menu_geotrans" name="GeoTrans" />
+        <menuitem id="menu_main" name="GeoTrans" parent="main_menu_geotrans"/>
+        <menuitem id="menu_conf_mobil" name="Mobil" parent="menu_conf" sequence="6"/>
+        <record id="geotrans_mobilesetting_ps_tree" model="ir.ui.view">
+            <field name="name">gt.mobilesetting.ps.tree</field>
+            <field name="model">gt.mobilesetting.ps</field>
+            <field name="arch" type="xml">
+                <tree string="Splash Ps">
+                    <field name="mobile_splashart"/>
+                    <field name="mobile_splashtime"/>
+                    <field name="mobile_activate"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_mobilesetting_ps_form" model="ir.ui.view">
+            <field name="name">gt.mobilesetting.ps.form</field>
+            <field name="model">gt.mobilesetting.ps</field>
+            <field name="arch" type="xml">
+                <form string="Splash Ps" version="7.0">
+                    <sheet>
+                        <group string="Configuración Principal">
+                            <field name="api_key"/>
+                            <field name="package"/>
+                            <field name="url_tutorial"/>
+                            <field name="reason_ids" widget="many2many_tags"
+                                   options="{'no_create': True}"/>
+                            <field name="message_ids" widget="many2many_tags"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        <group colspan="4">
+                            <notebook>
+                                <page string="Splash Art">
+                                    <group>
+                                        <field name="mobile_splashart" filename="mobile_splashart_filename"/>
+                                        <field name="mobile_splashart_filename" invisible="1"/>
+                                        <field name="mobile_splashtime"/>
+                                        <field name="mobile_activate"/>
+                                    </group>
+                                </page>
+                                <page string="Splash Art Publicitario">
+                                    <group>
+                                        <field name="mobile_splashart_publicity"
+                                               filename="mobile_splashart_filename_publicity"/>
+                                        <field name="mobile_splashart_filename_publicity" invisible="1"/>
+                                        <field name="mobile_splashtime_publicity"/>
+                                        <field name="mobile_activate_publicity"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_mobilesetting_ps" model="ir.actions.act_window">
+            <field name="name">Splash Ps</field>
+            <field name="res_model">gt.mobilesetting.ps</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotrans_mobilesetting_ps" name="App Mobil PS" parent="menu_conf_mobil" action="action_geotrans_mobilesetting_ps"/>
+        <record id="geotrans_mobilesetting_customer_tree" model="ir.ui.view">
+            <field name="name">gt.mobilesetting.customer.tree</field>
+            <field name="model">gt.mobilesetting.customer</field>
+            <field name="arch" type="xml">
+                <tree string="Splash Customer">
+                    <field name="mobile_splashart"/>
+                    <field name="mobile_splashtime"/>
+                    <field name="mobile_activate"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_mobilesetting_customer_form" model="ir.ui.view">
+            <field name="name">gt.mobilesetting.customer.form</field>
+            <field name="model">gt.mobilesetting.customer</field>
+            <field name="arch" type="xml">
+                <form string="Splash Customer" version="7.0">
+                    <sheet>
+                        <group colspan="4" string="Configuración Principal">
+                            <field name="api_key"/>
+                            <field name="package"/>
+                            <field name="activation_server"/>
+                            <field name="credit_card"/>
+                            <field name="url_tutorial"/>
+                        </group>
+                        <group colspan="4">
+                            <notebook>
+                                <page string="Splash Art">
+                                    <group>
+                                        <field name="mobile_splashart" filename="mobile_splashart_filename"/>
+                                        <field name="mobile_splashart_filename" invisible="1"/>
+                                        <field name="mobile_splashtime"/>
+                                        <field name="mobile_activate"/>
+                                    </group>
+                                </page>
+                                <page string="Splash Art Publicitario">
+                                    <group>
+                                        <field name="mobile_splashart_publicity"
+                                               filename="mobile_splashart_filename_publicity"/>
+                                        <field name="mobile_splashart_filename_publicity" invisible="1"/>
+                                        <field name="mobile_splashtime_publicity"/>
+                                        <field name="mobile_activate_publicity"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_mobilesetting_customer" model="ir.actions.act_window">
+            <field name="name">Splash customer</field>
+            <field name="res_model">gt.mobilesetting.customer</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotrans_mobilesetting_customer" name="App Mobil Customer" parent="menu_conf_mobil" action="action_geotrans_mobilesetting_customer"/>
+    </data>
+</openerp>

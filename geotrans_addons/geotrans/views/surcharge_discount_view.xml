@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="main_menu_geotrans" name="GeoTrans" />
+        <menuitem id="menu_main" name="GeoTrans" parent="main_menu_geotrans" sequence="1"/>
+        <menuitem id="menu_conf" name="Configuración" parent="main_menu_geotrans"/>
+        <menuitem id="menu_rate" name="Tarifa" parent="main_menu_geotrans" sequence="4"/>
+
+        <record id="gt_surcharge_discount_tree" model="ir.ui.view">
+            <field name="name">gt.surcharge.discount.tree</field>
+            <field name="model">gt.surcharge.discount</field>
+            <field name="arch" type="xml">
+                <tree string="Recargo/Descuento">
+                    <field name="type"/>
+                    <field name="priority"/>
+                    <field name="value_sd"/>
+                    <field name="date_begin"/>
+                    <field name="date_end"/>
+                    <field name="day"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="gt_surcharge_discount_form" model="ir.ui.view">
+            <field name="name">gt.surcharge.discount.form</field>
+            <field name="model">gt.surcharge.discount</field>
+            <field name="arch" type="xml">
+                <form string="Recargo/Descuento" version="7.0">
+                    <sheet>
+                        <group colspan="2">
+                            <field name="type"/>
+                            <field name="priority"/>
+                            <field name="value_sd"/>
+                            <field name="date_begin"/>
+                            <field name="date_end"/>
+                            <field name="day"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gt_surcharge_discount" model="ir.actions.act_window">
+            <field name="name">Recargo/Descuento</field>
+            <field name="res_model">gt.surcharge.discount</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_gt_surcharge_discount" name="Recargo/Descuento"
+                  parent="menu_rate" action="action_gt_surcharge_discount"/>
+    </data>
+</openerp>

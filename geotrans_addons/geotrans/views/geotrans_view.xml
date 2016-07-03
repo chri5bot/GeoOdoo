@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="main_menu_geotrans" name="GeoTrans" />
+        <menuitem id="menu_main" name="GeoTrans" parent="main_menu_geotrans"/>
+        <menuitem id="menu_conf" name="Configuración" parent="main_menu_geotrans"/>
+        <menuitem id="menu_rate" name="Tarifa" parent="main_menu_geotrans" sequence="4"/>
+        <record id="geotrans_service_type_tree" model="ir.ui.view">
+            <field name="name">gt.service.type.tree</field>
+            <field name="model">gt.service.type</field>
+            <field name="arch" type="xml">
+                <tree string="Tipo de Servicio">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_service_type_form" model="ir.ui.view">
+            <field name="name">gt.service.type.form</field>
+            <field name="model">gt.service.type</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de Servicio" version="7.0">
+                    <sheet>
+                        <group colspan="2">
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_service_type" model="ir.actions.act_window">
+            <field name="name">Tipos de Servicio</field>
+            <field name="res_model">gt.service.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotrans_service_type" name="Tipos de Servicio" parent="menu_conf" action="action_geotrans_service_type"/>
+    </data>
+</openerp>

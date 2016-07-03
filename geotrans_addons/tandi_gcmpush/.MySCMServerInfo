@@ -1,0 +1,5 @@
+SCMBranch=ctorresgeo
+SCMRepository=GEO-TRANS/Geo-Trans-OpenErp/geotrans_addons/tandi_gcmpush
+__init__.py;2281077516;1;1463668127;
+__openerp__.py;1729247100;1;1463668127;
+gcm_common.py;375399917;10;1463668127;

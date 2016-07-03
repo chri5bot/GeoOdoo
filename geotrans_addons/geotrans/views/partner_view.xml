@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="main_menu_geotrans" name="GeoTrans"/>
+        <menuitem id="menu_main" name="GeoTrans" parent="main_menu_geotrans"/>
+        <menuitem id="menu_service_partner" name="Proveedor de Servicio" parent="main_menu_geotrans" sequence="3"/>
+        <record id="geotrans_service_partner_tree" model="ir.ui.view">
+            <field name="name">gt.service.partner.tree</field>
+            <field name="model">gt.service.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Proveedor de Servicio">
+                    <field name="ced_ruc"/>
+                    <field name="name"/>
+                    <field name="last_name"/>
+                    <field name="mobile"/>
+                    <field name="license_expiration_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_service_partner_form" model="ir.ui.view">
+            <field name="name">gt.service.partner.form</field>
+            <field name="model">gt.service.partner</field>
+            <field name="arch" type="xml">
+                <form string="Proveedor de Servicio" version="7.0">
+                    <header>
+                            <button name="act_block" string="Bloquear"
+                                    type="object" states="active,inactive"
+                                    confirm="Desea bloquear este proveedor?"/>
+                            <button name="act_inactive" string="Desbloquear"
+                                    type="object" states="block"
+                                    confirm="Desea desbloquear este proveedor?"/>
+                            <button name="act_active" string="Activar"
+                                    type="object" states="inactive"
+                                    confirm="Desea activar este proveedor?"/>
+                            <field name="state" widget="statusbar" statusbar_visible="active, inactive"/>
+                    </header>
+                    <sheet>
+                        <field name="image" widget="image" class="oe_left oe_avatar"
+                                   options="{'preview_image': 'image_medium', 'size': [120, 120]}" modifiers="{}"
+                                   nolabel="1"/>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" default_focus="1" placeholder="Nombre"
+                                           modifiers="{'required': true}"/>
+                                    <field name="last_name" placeholder="Apellido" modifiers="{'required': true}"/>
+                                </h1>
+                                <group>
+                                <field name="ced_ruc" placeholder="Cédula / RUC" modifiers="{'required': true}"/>
+                                <field name="type_ced_ruc" placeholder="Tipo de Identificador" readonly='1'
+                                       modifiers="{'required': true}" />
+                                <field name="tipo_persona" placeholder="Tipo de Persona"
+                                       modifiers="{'required': true}"/>
+                                <field name="balance" readonly="1"/>
+                                <field name="ranking"/>
+                                </group>
+                                <newline/>
+                            </div>
+                            <div class="oe_right oe_button_box" name="buttons">
+                            </div>
+                        <notebook>
+                            <page string="Información Principal">
+                                <group col="4">
+                                    <field name="city"/>
+                                    <field name="mobile"/>
+                                    <field name="street"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                    <field name="date_birth"/>
+                                    <field name="age"/>
+                                    <field name="pico_placa"/>
+                                    <field name="message_pico_placa"/>
+                                    <field name="partner_id"/>
+                                </group>
+                            </page>
+                            <page string="Configuración">
+                                <group string="Servicio GeoTrans">
+                                    <field name="partner_active"/>
+                                    <field name="token_id"/>
+                                    <field name="subscription_date"/>
+                                    <field name="rainwear"/>
+                                    <field name="work_zone"/>
+                                    <field name="work_time"/>
+                                    <field name="work_time_info" attrs="{'invisible': [('work_time','=','fulltime')]}"/>
+                                </group>
+                                <group string="Tipos de Servicio">
+                                    <field name="service_type_ids" widget="many2many_tags"
+                                           options="{'no_create': True}"/>
+                                </group>
+                                <group string="Login">
+                                    <field name="get_user"/>
+                                    <field name="user_partner"/>
+                                    <field name="pwd_partner"/>
+                                </group>
+                                <group string="Términos y Condiciones ">
+                                    <field name="confirm_terms_conditions"/>
+                                    <field name="terms_conditions"/>
+                                </group>
+                            </page>
+                            <page string="Vehículo">
+                                <group string="Licencia de Conducir" col="4">
+
+                                    <field name="license_expiration_date"/>
+                                    <field name="license_points"/>
+                                    <field name="blood_type"/>
+                                </group>
+                                <group string="Vehículo">
+                                    <field name="vehicle_ids"/>
+                                </group>
+                            </page>
+                            <page string="Multas">
+                                <group string="Multas">
+                                    <field name="penalty_ids" context="{'default_penalty_partner_id': active_id}"/>
+                                </group>
+                            </page>
+                            <page string="Recargas">
+                                <group string="Recargas">
+                                    <field name="voucher_ids"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_service_partner" model="ir.actions.act_window">
+            <field name="name">Proveedor de Servicio</field>
+            <field name="res_model">gt.service.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotrans_service_partner" name="Proveedor de Servicio" parent="menu_service_partner"
+                  action="action_geotrans_service_partner"/>
+    </data>
+</openerp>

@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="main_menu_geotrans" name="GeoTrans" />
+        <menuitem id="menu_main" name="GeoTrans" parent="main_menu_geotrans" sequence="1"/>
+        <menuitem id="menu_conf" name="Configuración" parent="main_menu_geotrans"/>
+        <menuitem id="menu_rate" name="Tarifa" parent="main_menu_geotrans" sequence="4"/>
+        <menuitem id="menu_reject_reason" name="Rechazos" parent="main_menu_geotrans" sequence="5"/>
+
+        <record id="gt_route_rejection_tree" model="ir.ui.view">
+            <field name="name">gt.route.rejection.tree</field>
+            <field name="model">gt.route.rejection</field>
+            <field name="arch" type="xml">
+                <tree string="Información">
+                    <field name="service_partner_id"/>
+                    <field name="reason_id"/>
+                    <field name="date"/>
+                    <field name="support"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="gt_route_rejection_form" model="ir.ui.view">
+            <field name="name">gt.route.rejection.form</field>
+            <field name="model">gt.route.rejection</field>
+            <field name="arch" type="xml">
+                <form string="Información" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name="service_partner_id"/>
+                            <field name="reason_id"/>
+                            <field name="date"/>
+                            <field name="support"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="gt_reason_tree" model="ir.ui.view">
+            <field name="name">gt.reason.tree</field>
+            <field name="model">gt.reason</field>
+            <field name="arch" type="xml">
+                <tree string="Tipo Rechazo">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        <record id="gt_reason_form" model="ir.ui.view">
+            <field name="name">gt.reason.form</field>
+            <field name="model">gt.reason</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de Rechazo" version="7.0">
+                    <sheet>
+                        <group colspan="2">
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_gt_reason" model="ir.actions.act_window">
+            <field name="name">Tipos de Rechazo</field>
+            <field name="res_model">gt.reason</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_gt_reason" name="Motivos de Rechazo"
+                  parent="menu_reject_reason" action="action_gt_reason"/>
+    </data>
+</openerp>

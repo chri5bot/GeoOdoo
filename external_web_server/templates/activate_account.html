@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Activacion de cuenta</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style type="text/css">
+body{
+	font-family: 'Courgette', cursive;
+}
+body{
+	background:#f3f3e1;
+}
+.wrap{
+	margin:0 auto;
+	width:1000px;
+}
+.logo{
+	margin-top:50px;
+}
+.logo h1{
+	font-size:200px;
+	color:#4d88ff;
+	text-align:center;
+	margin-bottom:1px;
+	text-shadow:1px 1px 6px #fff;
+}
+.logo p{
+	color:#4d88ff;
+	font-size:20px;
+	margin-top:1px;
+	text-align:center;
+}
+.logo p span{
+	color:lightgreen;
+}
+
+</style>
+</head>
+<body>
+{% block body %}
+<div class="wrap">
+    <div class="logo">
+        <p>
+{% if not error %}
+     <em>Estimado Cliente: <BR/>su cuenta <b>{{ customer }}</b>  se activó correctamente</em>
+{% else %}
+    <em>NO SE PUDO ACTIVAR SU CUENTA</em>
+        </p>
+{% endif %}
+    </div>
+</div>
+{% endblock %}
+</body>
+

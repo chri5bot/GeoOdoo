@@ -1,0 +1,11 @@
+SCMBranch=ctorresgeo
+SCMRepository=GEO-TRANS/Geo-Trans-OpenErp/geotrans_addons/geotrans_mobile/models
+__init__.py;2881772145;4;1463668127;
+__init__.pyc;639277463;1;1463668127;
+app_config.py;3412866845;9;1463668127;
+crypter.py;2584949006;1;1463668127;
+customer.py;2396402906;26;1463668127;
+notify.py;1905367500;2;1463668127;
+partner.py;3058000779;29;1463668127;
+partner.pyc;287165430;1;1463668127;
+route.py;1697994424;22;1463668127;

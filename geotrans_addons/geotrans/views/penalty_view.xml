@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem id="main_menu_geotrans" name="GeoTrans" />
+        <menuitem id="menu_main" name="GeoTrans" parent="main_menu_geotrans"/>
+        <menuitem id="menu_conf" name="Configuración" parent="main_menu_geotrans"/>
+        <menuitem id="menu_penal" name="Multa" parent="main_menu_geotrans"/>
+        <menuitem id="menu_rate" name="Tarifa" parent="main_menu_geotrans" sequence="4"/>
+
+        <record id="geotrans_penalty_tree" model="ir.ui.view">
+            <field name="name">gt.penalty.tree</field>
+            <field name="model">gt.penalty</field>
+            <field name="arch" type="xml">
+                <tree string="Multa">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="product_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_penalty_form" model="ir.ui.view">
+            <field name="name">gt.penalty.form</field>
+            <field name="model">gt.penalty</field>
+            <field name="arch" type="xml">
+                <form string="Multa" version="7.0">
+                    <sheet>
+                        <group colspan="2">
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="product_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_penalty" model="ir.actions.act_window">
+            <field name="name">Multa</field>
+            <field name="res_model">gt.penalty</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_penalty" name="Multa" parent="menu_penal" action="action_penalty"/>
+
+        <record id="gt_penalty_application_tree" model="ir.ui.view">
+            <field name="name">gt.penalty.application.tree</field>
+            <field name="model">gt.penalty.application</field>
+            <field name="arch" type="xml">
+                <tree string="Aplicación de Multa"
+                      colors="blue:state == 'entered';
+                              grey:state=='canceled';">
+                    <field name="penalty_id"/>
+                    <field name="penalty_partner_id"/>
+                    <field name="state"/>
+                    <field name="date"/>
+                    <field name="value" sum="Total Multas"/>
+                </tree>
+            </field>
+        </record>
+        <record id="gt_penalty_application_form" model="ir.ui.view">
+            <field name="name">gt.penalty.application.form</field>
+            <field name="model">gt.penalty.application</field>
+            <field name="arch" type="xml">
+                <form string="Multa" version="7.0">
+                    <header>
+                        <button name="act_confirm" string="Confirmar"
+                                type="object" states="entered"
+                                confirm="Desea confirmar esta multa?"/>
+                        <button name="act_cancel" string="Anular Multa"
+                                type="object" states="confirmed"
+                                confirm="Desea anular esta multa?"/>
+                        <field name="state" widget="statusbar" statusbar_visible="entered, confirmed, invoiced"/>
+                    </header>
+                    <sheet>
+                        <group colspan="2">
+                            <field name="penalty_id"/>
+                            <field name="penalty_partner_id"/>
+                            <field name="date"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="gt_penalty_application_filter" model="ir.ui.view">
+            <field name="name">gt.penalty.application.search</field>
+            <field name="model">gt.penalty.application</field>
+            <field name="arch" type="xml">
+                <search string="Búsqueda Multas Aplicadas">
+                    <filter name="confirmed"  string="Confirmadas" domain="[('state','=','confirmed')]" help="Filtra solo las multas confirmadas"/>
+                    <filter name="invoiced" string="Facturadas" domain="[('state','=','toinvoice')]" help="Filtra solo las multas facturadas"/>
+                    <filter name="canceled" string="Anuladas" domain="[('state','=','canceled')]" help="Filtra solo las multas anuladas"/>
+                    <separator/>
+                    <field name="penalty_partner_id" string="Proveedor de Servicio"/>
+                    <field name="penalty_id" string="Tipo de Multa"/>
+                    <field name="date" string="Fecha"/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Proveedor de Servicio" icon="terp-partner" domain="[]" context="{'group_by':'penalty_partner_id'}"/>
+                        <filter string="Tipo de Multa" icon="terp-personal" domain="[]"  context="{'group_by':'penalty_id'}"/>
+                        <filter string="Estado" icon="terp-personal" domain="[]"  context="{'group_by':'state'}"/>
+                        <filter string="Fecha" icon="terp-personal" domain="[]"  context="{'group_by':'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_gt_penalty_application" model="ir.actions.act_window">
+            <field name="name">Aplicación Multa</field>
+            <field name="res_model">gt.penalty.application</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_aplipenalty" name="Aplicación Multa" parent="menu_penal" action="action_gt_penalty_application"/>
+
+
+    </data>
+</openerp>

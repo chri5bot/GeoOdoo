@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wizard_sendmessage_view" model="ir.ui.view" >
+            <field name="name">wizard_sendmessage_view</field>
+            <field name="model">wizard.sendmessage</field>
+            <field name="arch" type="xml">
+                <form string="Enviar Mensajes" version="7.0">
+                    <footer>
+                        <button name="send" string="Enviar" type="object" class="oe_highlight"/>
+                        <button name="notify_travel" string="Viaje" type="object" class="oe_highlight"/>
+                        <button name="send_total_penalty" string="Multas" type="object" class="oe_highlight"/>
+                        <button name="send_cash_balance" string="Saldo Proveedor" type="object" class="oe_highlight"/>
+                        <button name="find_request" string="Notificar" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                    <separator string="Mensaje"/>
+                    <group col="2">
+                        <field name="wiz_tittle"/>
+                        <field name="wiz_message"/>
+                    </group>
+                    <separator string="Lista de Proveedores de Servicio"/>
+                    <!--<field name="ps_ids" domain="[('partner_active', '=', True)]"/>-->
+                    <field name="ps_ids"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_sendmessage" model="ir.actions.act_window">
+            <field name="name">action_wizard_sendmessage</field>
+            <field name="res_model">wizard.sendmessage</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="wizard_sendmessage_view"/>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Enviar Mensajes" action="action_wizard_sendmessage"
+                  id="menu_wizard_sendmessage" parent="geotrans.menu_main"/>
+    </data>
+</openerp>
+

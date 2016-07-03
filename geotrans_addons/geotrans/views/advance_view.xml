@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="main_menu_geotrans" name="GeoTrans" />
+        <menuitem id="menu_main" name="GeoTrans" parent="main_menu_geotrans" sequence="1"/>
+        <menuitem id="menu_conf" name="Configuración" parent="main_menu_geotrans"/>
+        <menuitem id="menu_advance" name="Anticipo" parent="main_menu_geotrans" sequence="5"/>
+        <record id="geotrans_advance_tree" model="ir.ui.view">
+            <field name="name">gt.advance.tree</field>
+            <field name="model">gt.advance</field>
+            <field name="arch" type="xml">
+                <tree string="Solicitud del Anticipo">
+                    <field name="advance_reason"/>
+                    <field name="state"/>
+                    <field name="request_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_advance_form" model="ir.ui.view">
+            <field name="name">gt.advance.form</field>
+            <field name="model">gt.advance</field>
+            <field name="arch" type="xml">
+                <form string="Solicitud del Anticipo" version="7.0">
+                    <sheet>
+                        <group colspan="2">
+                            <field name="advance_reason"/>
+                            <field name="state"/>
+                            <field name="request_date"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_advance" model="ir.actions.act_window">
+            <field name="name">Solicitud del Anticipo</field>
+            <field name="res_model">gt.advance</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotrans_advance" name="Solicitud del Anticipo" parent="menu_advance" action="action_geotrans_advance"/>
+        <record id="geotrans_advance_reason_tree" model="ir.ui.view">
+            <field name="name">gt.advance.reason.tree</field>
+            <field name="model">gt.advance.reason</field>
+            <field name="arch" type="xml">
+                <tree string="Motivo del Anticipo">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_advance_reason_form" model="ir.ui.view">
+            <field name="name">gt.advance.reason.form</field>
+            <field name="model">gt.advance.reason</field>
+            <field name="arch" type="xml">
+                <form string="Motivo del Anticipo" version="7.0">
+                    <sheet>
+                        <group cols="4">
+                            <field name="name" select="1"/>
+                            <field name="description" select="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_advance_reason" model="ir.actions.act_window">
+            <field name="name">Motivo del Anticipo</field>
+            <field name="res_model">gt.advance.reason</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotrans_advance_reason" name="Motivo del Anticipo" parent="menu_conf" action="action_geotrans_advance_reason"/>
+    </data>
+</openerp>

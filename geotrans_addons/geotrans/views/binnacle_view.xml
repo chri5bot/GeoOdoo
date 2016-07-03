@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="gt_binnacle" model="ir.ui.view">
+            <field name="name">gt.binnacle.tree</field>
+            <field name="model">gt.binnacle</field>
+            <field name="arch" type="xml">
+                <tree string="Bitácora" colors="red:type == 'PS'; green:type=='US';">
+                    <field name="type"/>
+                    <field name="service_partner_id"/>
+                    <field name="message"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="gt_binnacle_form" model="ir.ui.view">
+            <field name="name">gt.binnacle.form</field>
+            <field name="model">gt.binnacle</field>
+            <field name="arch" type="xml">
+                <form string="Líneas de Bitácora" version="7.0">
+                    <sheet>
+                        <group colspan="2">
+                            <field name="route_id" invisible="1"/>
+                            <field name="type"/>
+                            <field name="date"/>
+                            <field name="service_partner_id"/>
+                            <field name="message"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_gt_binnacle" model="ir.actions.act_window">
+            <field name="name">Bitácora</field>
+            <field name="res_model">gt.binnacle</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</openerp>

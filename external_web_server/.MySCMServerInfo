@@ -1,0 +1,6 @@
+SCMBranch=ctorresgeo
+SCMRepository=GEO-TRANS/Geo-Trans-OpenErp/external_web_server
+__init__.py;3433674862;1;1463668127;
+crypter.py;2584949006;1;1463668127;
+openerp_client.py;495017755;1;1463668127;
+server.py;1595268134;3;1463668127;

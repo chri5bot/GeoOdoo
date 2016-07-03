@@ -1,0 +1,6 @@
+SCMBranch=ctorresgeo
+SCMRepository=GEO-TRANS/Geo-Trans-OpenErp/geotrans_addons/geotrans/wizard
+__init__.py;3488783064;1;1463668127;
+pay_fines.py;188634122;3;1463668127;
+pay_fines.xml;2799821575;1;1463668127;
+pay_fines_view.xml;2799821575;1;1463668127;

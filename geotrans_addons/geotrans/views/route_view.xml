@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem id="main_menu_geotrans" name="GeoTrans"/>
+        <menuitem id="menu_main" name="GeoTrans" parent="main_menu_geotrans"/>
+        <menuitem id="menu_conf" name="Configuración" parent="main_menu_geotrans"/>
+
+        <record id="geotrans_route_tree" model="ir.ui.view">
+            <field name="name">gt.route.tree</field>
+            <field name="model">gt.route</field>
+            <field name="arch" type="xml">
+                <tree string="Ruta">
+                    <field name="customer_partner_id"/>
+                    <field name="request_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_route_form" model="ir.ui.view">
+            <field name="name">gt.route.form</field>
+            <field name="model">gt.route</field>
+            <field name="arch" type="xml">
+                <form string="Ruta" version="7.0">
+                    <header>
+                        <button name="act_quote" string="Cotizar"
+                                type="object" states="new"
+                                confirm="Desea cotizar esta ruta, la cotización anterior de perderá"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group colspan="4">
+                            <group>
+                                <field name="customer_partner_id"/>
+                                <field name="service_type"/>
+                                <field name="surcharge"/>
+                            </group>
+                            <group>
+                                <field name="request_date" widget="datetime"/>
+                                <field name="payment_type"/>
+                                <field name="length"/>
+                                <field name="ps_qualification"/>
+                            </group>
+                        </group>
+                        <group colspan="4 ">
+
+                            <group string="Usuario">
+                                <field name="rate"/>
+                                <field name="km_cost"/>
+                                <field name="wait_cost"/>
+                                <separator/>
+                                <div style="width: 120px; border-bottom: 1px solid; margin-left: -40px;"/>
+                                <field name="total_cost"/>
+                            </group>
+                            <group string="Proveedor de Servicio">
+                                <field name="rate_ps"/>
+                                <field name="km_cost_ps"/>
+                                <field name="wait_cost_ps"/>
+                                <separator/>
+                                <div style="width: 120px; border-bottom: 1px solid; margin-left: -40px;"/>
+                                <field name="total_cost_ps"/>
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Viajes">
+                                <field name="travel_ids"/>
+                            </page>
+                            <page string="Chat">
+                                <field name="chat_ids"
+                                       context="{'default_route_id': active_id}"/>
+                            </page><page string="Bitácora">
+                                <field name="binnacle_ids"
+                                       context="{'default_route_id': active_id}"/>
+                            </page>
+                            <page string="Rechazos">
+                                <field name="rejection_ids"
+                                       context="{'default_route_id': active_id}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_route" model="ir.actions.act_window">
+            <field name="name">Ruta</field>
+            <field name="res_model">gt.route</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotrans_route" name="Ruta" parent="menu_main" action="action_geotrans_route"/>
+
+        <record id="geotrans_travel_tree" model="ir.ui.view">
+            <field name="name">gt.travel.tree</field>
+            <field name="model">gt.travel</field>
+            <field name="arch" type="xml">
+                <tree string="Viaje">
+                    <field name="sp_partner_id"/>
+                    <field name="estimated_km" sum="Total Estimado"/>
+                    <field name="kilometers_km" sum="Total Recorrido"/>
+                </tree>
+            </field>
+        </record>
+        <record id="geotrans_travel_form" model="ir.ui.view">
+            <field name="name">gt.travel.form</field>
+            <field name="model">gt.travel</field>
+            <field name="arch" type="xml">
+                <form string="Viaje" version="7.0">
+                    <header>
+                        <button name="act_confirm" string="Confirmar"
+                                type="object" states="new"/>
+                        <button name="act_inprogress" string="En Curso"
+                                type="object" states="confirmed"/>
+                        <button name="act_cancel" string="Cancelar"
+                                type="object" states="confirmed"
+                                confirm="¿Seguro que desea cancelar el viaje?"/>
+                        <button name="act_done" string="Realizado"
+                                type="object" states="inprogress"/>
+                        <button name="act_invoiced" string="Facturar"
+                                type="object" states="done"/>
+
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="new, confirmed, inprogress, done, invoiced"/>
+                    </header>
+                    <sheet>
+                        <group colspan="2">
+                            <group string="Información Principal">
+                                <field name="route_id"/>
+                                <field name="estimated_km"/>
+                                <field name="kilometers_km"/>
+                            </group>
+                            <group string="Proveedor Servicio">
+                                <field name="sp_partner_id"/>
+                                <field name="ps_observation"/>
+                                <field name="km_cost_ps"/>
+                                <field name="wait_cost_ps"/>
+                                <field name="total_cost_ps"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Origen">
+                                <group colspan="2">
+                                    <field name="reference_begin"/>
+                                    <field name="description_begin"/>
+                                </group>
+                                <field name="geo_point_start" widget="geo_edit_map"/>
+                            </page>
+                            <page string="Destino">
+                                <group colspan="2">
+                                    <field name="reference_end"/>
+                                    <field name="description_end"/>
+                                </group>
+                                <field name="geo_point_end" widget="geo_edit_map"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_geotrans_travel" model="ir.actions.act_window">
+            <field name="name">Viaje</field>
+            <field name="res_model">gt.travel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_geotrans_travel" name="Viaje" parent="menu_main" action="action_geotrans_travel"/>
+
+
+        <!--VISTAS PARA EL GEOENGINE-->
+
+
+        <record id="ir_ui_view_gt_travel" model="ir.ui.view">
+            <field name="name">Travel view</field>
+            <field name="arch" type="xml">
+                <geoengine version="7.0">
+                    <field name="description_begin" select="1"/>
+                </geoengine>
+            </field>
+            <field eval="20" name="priority"/>
+            <field name="model">gt.travel</field>
+        </record>
+        <record id="action_gt_travel_tree_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="geotrans_travel_tree"/>
+            <field name="act_window_id" ref="geotrans.action_geotrans_travel"/>
+        </record>
+        <record id="action_gt_travel_form_view" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="geotrans_travel_form"/>
+            <field name="act_window_id" ref="geotrans.action_geotrans_travel"/>
+        </record>
+        <record id="action_gt_travel_form_view3" model="ir.actions.act_window.view">
+            <field eval="30" name="sequence"/>
+            <field name="view_mode">geoengine</field>
+            <field name="view_id" ref="ir_ui_view_gt_travel"/>
+            <field name="act_window_id" ref="geotrans.action_geotrans_travel"/>
+        </record>
+
+        <record id="geoengine_vector_layer_gt_travel" model="geoengine.vector.layer">
+            <field name="geo_field_id" ref="geotrans.field_gt_travel_geo_point_start"/>
+            <field name="name">Origen del Viaje</field>
+            <field eval="20" name="sequence"/>
+            <field name="view_id" ref="ir_ui_view_gt_travel"/>
+            <field name="geo_repr">basic</field>
+            <field eval="1" name="nb_class"/>
+            <field name="begin_color">#FF680A</field>
+            <field name="symbol_binary">iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAYAAACGVs+MAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+                bWFnZVJlYWR5ccllPAAAA3VJREFUeNq8V89rE0EUfjOz6aZNpFZpqyCEIooHoVaoQkGoB3vyJB49
+                iYieFERBEMRbxYP/gFcv3ntQLHqwqNR6LNUqIq0/m8S2u0l3NzszfpNsqN0e3MiuA4/Jmx3e++Z7
+                3/wI01pTkvZicF+zzwvR1c35efRX0B/K7SgScUHScVZ8KR96St31pPyuEHfk6+e/xrUoYWMwQM3D
+                7gvOL9lIYA8MkD1+gli+hxozM/3qw8erHtEYpp7D/MUkcXlSAFiZUEQXEfgSiwCJvp0kDh8mcWSY
+                2J49xBkzAY8B5KSvdTFVAKHWJan1dVMwQy/AkCyXKZydo8bLVySXl0kqZVgizDvT0Ho0SdzEJUDA
+                CaH1XgQ3YCjgnESlSmp6uqmBsFajoDWPmnOUOgX3WXoAlBoFxSLAKgWoZjDDhLXuNMsRwg/gQ4Bm
+                rvldSpUBrPoXR3CvLUgka4AFi7eqqExijPlmjmFISi9VDaA9xqoCiJHqSGKsBnPDkGowNxrbiL77
+                Sr1JlQG017DnCDzR1oFol6MlvKYZFlCCCsT4JG0A67CbsGEkHzSK520KAcIkp2h3oN2CfUy7BKa9
+                hZ2FzWnPo7BepwB9gF7ClKYKvl2GPUgaMDEDGtusfSrr0J+g42PXVLF4Uy8vM76rj6hQmKKn0zeY
+                EPOdrCgxAOvk+KazsVGlC+cf2fv3X+sOQ9uT5gDSU9q25ynh3dIxgO47t/+4GBhpxwn3Fgu6NFSi
+                paUv5Ky7gXVvcvPWSBsAd92tJdF6FQeRr0KZ1+YI1mpNrq5Rpy2xCBnjcYPgWOWP6/wH/UNLzEBX
+                Vy7OQIBKrEbpfVglUwCFnp44AI0jyI3KXYfb0B0KsLNtGBNW02fUFsaGuS4yZcDUPQZJY+xnpHgH
+                FmQKgHMWS48xRu1H3zdThmwBxBgwJcBYNXLL5tWWMQM8LkJinDuR62ZeAhYrQVODnK1H0jQXhcwU
+                gBBia35cfWClbJDgeeaADcPIfwTA8SARAKCb5Slb+M6zBLBNA62dYYSn8UdlNWdZ2QLo6+vdNibx
+                LAIQF+z4tp3ftlVTBVBZqcZPJurv3x16nv+jt7fXd/FgaYQNar0QMwDw6dPSFt+svVqt+iMjw3Jh
+                4X24Ui2Tldt6YR06eCDFF5Flxc+B00g8/G5xYVYF6ui+odIOzHmI8Y62428BBgDwu9RGZbaLEwAA
+                AABJRU5ErkJggg==
+            </field>
+        </record>
+        <record id="geoengine_vector_layer_gt_travel_det" model="geoengine.vector.layer">
+            <field name="geo_field_id" ref="geotrans.field_gt_travel_geo_point_end"/>
+            <field name="name">Destino del Viaje</field>
+            <field eval="21" name="sequence"/>
+            <field name="view_id" ref="ir_ui_view_gt_travel"/>
+            <field name="geo_repr">basic</field>
+            <field eval="1" name="nb_class"/>
+            <field name="begin_color">#3333FF</field>
+            <field name="symbol_binary">iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAYAAACGVs+MAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+                bWFnZVJlYWR5ccllPAAAA3VJREFUeNq8V89rE0EUfjOz6aZNpFZpqyCEIooHoVaoQkGoB3vyJB49
+                iYieFERBEMRbxYP/gFcv3ntQLHqwqNR6LNUqIq0/m8S2u0l3NzszfpNsqN0e3MiuA4/Jmx3e++Z7
+                3/wI01pTkvZicF+zzwvR1c35efRX0B/K7SgScUHScVZ8KR96St31pPyuEHfk6+e/xrUoYWMwQM3D
+                7gvOL9lIYA8MkD1+gli+hxozM/3qw8erHtEYpp7D/MUkcXlSAFiZUEQXEfgSiwCJvp0kDh8mcWSY
+                2J49xBkzAY8B5KSvdTFVAKHWJan1dVMwQy/AkCyXKZydo8bLVySXl0kqZVgizDvT0Ho0SdzEJUDA
+                CaH1XgQ3YCjgnESlSmp6uqmBsFajoDWPmnOUOgX3WXoAlBoFxSLAKgWoZjDDhLXuNMsRwg/gQ4Bm
+                rvldSpUBrPoXR3CvLUgka4AFi7eqqExijPlmjmFISi9VDaA9xqoCiJHqSGKsBnPDkGowNxrbiL77
+                Sr1JlQG017DnCDzR1oFol6MlvKYZFlCCCsT4JG0A67CbsGEkHzSK520KAcIkp2h3oN2CfUy7BKa9
+                hZ2FzWnPo7BepwB9gF7ClKYKvl2GPUgaMDEDGtusfSrr0J+g42PXVLF4Uy8vM76rj6hQmKKn0zeY
+                EPOdrCgxAOvk+KazsVGlC+cf2fv3X+sOQ9uT5gDSU9q25ynh3dIxgO47t/+4GBhpxwn3Fgu6NFSi
+                paUv5Ky7gXVvcvPWSBsAd92tJdF6FQeRr0KZ1+YI1mpNrq5Rpy2xCBnjcYPgWOWP6/wH/UNLzEBX
+                Vy7OQIBKrEbpfVglUwCFnp44AI0jyI3KXYfb0B0KsLNtGBNW02fUFsaGuS4yZcDUPQZJY+xnpHgH
+                FmQKgHMWS48xRu1H3zdThmwBxBgwJcBYNXLL5tWWMQM8LkJinDuR62ZeAhYrQVODnK1H0jQXhcwU
+                gBBia35cfWClbJDgeeaADcPIfwTA8SARAKCb5Slb+M6zBLBNA62dYYSn8UdlNWdZ2QLo6+vdNibx
+                LAIQF+z4tp3ftlVTBVBZqcZPJurv3x16nv+jt7fXd/FgaYQNar0QMwDw6dPSFt+svVqt+iMjw3Jh
+                4X24Ui2Tldt6YR06eCDFF5Flxc+B00g8/G5xYVYF6ui+odIOzHmI8Y62428BBgDwu9RGZbaLEwAA
+                AABJRU5ErkJggg==
+            </field>
+        </record>
+        <record id="geoengine_vector_layer_res_partner_google" model="geoengine.raster.layer">
+            <field name="raster_type">osm</field>
+            <field name="name">Travel background</field>
+            <field name="view_id" ref="ir_ui_view_gt_travel"/>
+            <field eval="0" name="overlay"/>
+        </record>
+
+    </data>
+</openerp>

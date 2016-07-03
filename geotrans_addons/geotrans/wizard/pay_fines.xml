@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="main_menu_geotrans" name="GeoTrans" />
+        <menuitem id="menu_main" name="GeoTrans" parent="main_menu_geotrans" sequence="1"/>
+
+        <!--<record id="wizard_penalty_lines_tree" model="ir.ui.view">
+            <field name="name">wizard.penalty.lines.tree</field>
+            <field name="model">wizard.penalty.lines</field>
+            <field name="arch" type="xml">
+                <tree string="Pago Multas">
+                    <field name="name"/>
+                    <field name="num"/>
+                    <field name="total" sum="total"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_wizard_penalty_lines" model="ir.actions.act_window">
+            <field name="name">Pago Multas</field>
+            <field name="res_model">wizard.penalty.lines</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree, form</field>
+        </record>-->
+
+        <record id="wizard_penalty_invoice_view" model="ir.ui.view" >
+            <field name="name">wizard.penalty.invoice</field>
+            <field name="model">wizard.penalty.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Facturar Multas" version="7.0">
+                    <separator string="Datos"/>
+                    <group col="4">
+                        <field name="wizard_date"/>
+                    </group>
+                    <footer>
+                        <button name="invoice" string="Facturar" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                    <separator string="Lista de Multas"/>
+                    <field name="penalty_line_ids" domain="[('state', '=', 'confirmed')]"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_penalty_invoice" model="ir.actions.act_window">
+            <field name="name">wizard.penalty.invoice</field>
+            <field name="res_model">wizard.penalty.invoice</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="wizard_penalty_invoice_view"/>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Facturar Multas" action="action_wizard_penalty_invoice" id="menu_wizard_penalty_invoice" parent="menu_main"/>
+    </data>
+</openerp>

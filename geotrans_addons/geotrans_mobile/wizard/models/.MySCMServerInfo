@@ -1,0 +1,5 @@
+SCMBranch=ctorresgeo
+SCMRepository=GEO-TRANS/Geo-Trans-OpenErp/geotrans_addons/geotrans_mobile/wizard/models
+__init__.py;2253246768;1;1463668127;
+receive_message.py;3326905237;2;1463668127;
+send_message.py;2953008686;9;1463668127;

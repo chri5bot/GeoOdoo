@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="journal_inherit_view" model="ir.ui.view">
+            <field name="name">journal.geo.inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="integration_payment"/>
+                    <field name="integration_partner"
+                           attrs="{'required': [('integration_payment','=', True)]}"
+                           domain="[('supplier','=',True)]"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <!--
+    Handling of element overloading when inheriting from a base
+    template
+  -->
+  <xs:group name="overload">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="attribute"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="attribute">
+    <xs:complexType mixed="true">
+      <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="overload">
+    <xs:attribute name="position">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="before"/>
+          <xs:enumeration value="after"/>
+          <xs:enumeration value="inside"/>
+          <xs:enumeration value="replace"/>
+          <xs:enumeration value="attributes"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="modifiable">
+    <xs:attribute name="modifiers"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="access_rights">
+    <xs:attribute name="groups"/>
+  </xs:attributeGroup>
+  <xs:element name="column">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="action"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="action">
+    <xs:complexType>
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="string"/>
+      <xs:attribute name="context"/>
+      <xs:attribute name="domain"/>
+      <xs:attribute name="view_mode"/>
+      <xs:attribute name="creatable"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="dashboard" abstract="true"/>
+  <xs:element name="board" substitutionGroup="dashboard">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="column"/>
+        <xs:sequence>
+          <xs:element ref="column"/>
+          <xs:element ref="column"/>
+        </xs:sequence>
+        <xs:sequence>
+          <xs:element ref="column"/>
+          <xs:element ref="column"/>
+          <xs:element ref="column"/>
+        </xs:sequence>
+      </xs:choice>
+      <xs:attribute name="style" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="1-1"/>
+            <xs:enumeration value="1-2"/>
+            <xs:enumeration value="2-1"/>
+            <xs:enumeration value="1-1-1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="hpaned" substitutionGroup="dashboard">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:group minOccurs="0" ref="any"/>
+        <xs:element minOccurs="0" ref="html"/>
+      </xs:sequence>
+      <xs:attribute name="position" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="vpaned" substitutionGroup="dashboard">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:group minOccurs="0" ref="any"/>
+        <xs:element minOccurs="0" ref="html"/>
+      </xs:sequence>
+      <xs:attribute name="position" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="container">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="notebook"/>
+        <xs:element ref="field"/>
+        <xs:element ref="group"/>
+        <xs:element ref="button"/>
+        <xs:element ref="label"/>
+        <xs:element ref="separator"/>
+        <xs:element ref="image"/>
+        <xs:element ref="form"/>
+        <xs:element ref="dashboard"/>
+        <xs:element ref="filter"/>
+        <xs:element ref="html"/>
+        <xs:element ref="newline"/>
+        <xs:element ref="properties"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="newline">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="properties">
+    <xs:complexType/>
+  </xs:element>
+  <xs:attributeGroup name="container">
+    <xs:attribute name="col"/>
+  </xs:attributeGroup>
+  <xs:element name="form">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="overload"/>
+        <xs:group ref="container"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="overload"/>
+      <xs:attribute name="create"/>
+      <xs:attribute name="delete"/>
+      <xs:attribute name="edit"/>
+      <xs:attribute name="string"/>
+      <xs:attribute name="type"/>
+      <xs:attribute name="link"/>
+      <xs:attributeGroup ref="container"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="diagram">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="node"/>
+        <xs:element ref="arrow"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="label"/>
+      </xs:sequence>
+      <xs:attribute name="create"/>
+      <xs:attribute name="string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="node">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="field"/>
+      </xs:sequence>
+      <xs:attribute name="object" use="required"/>
+      <xs:attribute name="shape"/>
+      <xs:attribute name="bgcolor"/>
+      <xs:attribute name="form_view_ref"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="arrow">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="field"/>
+      </xs:sequence>
+      <xs:attribute name="object" use="required"/>
+      <xs:attribute name="source" use="required"/>
+      <xs:attribute name="destination" use="required"/>
+      <xs:attribute name="form_view_ref"/>
+      <xs:attribute name="label"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="kanban">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="field"/>
+        <xs:element ref="templates"/>
+      </xs:sequence>
+      <xs:attribute name="default_group_by"/>
+      <xs:attribute name="create"/>
+      <xs:attribute name="delete"/>
+      <xs:attribute name="edit"/>
+      <xs:attribute name="quick_create"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="templates">
+    <xs:complexType>
+      <xs:group maxOccurs="unbounded" ref="any"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="tree">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="overload"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="field"/>
+          <xs:element ref="separator"/>
+          <xs:element ref="tree"/>
+          <xs:element ref="group"/>
+          <xs:element ref="button"/>
+          <xs:element ref="filter"/>
+          <xs:element ref="html"/>
+          <xs:element ref="newline"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attributeGroup ref="overload"/>
+      <xs:attribute name="create"/>
+      <xs:attribute name="delete"/>
+      <xs:attribute name="edit"/>
+      <xs:attribute name="string"/>
+      <xs:attribute name="colors"/>
+      <xs:attribute name="fonts"/>
+      <xs:attribute name="editable">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="bottom"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="toolbar">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="True"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="on_write"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="search">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="overload"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="field"/>
+          <xs:element ref="group"/>
+          <xs:element ref="separator"/>
+          <xs:element ref="filter"/>
+          <xs:element ref="search"/>
+          <xs:element ref="newline"/>
+          <xs:element ref="properties"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attributeGroup ref="overload"/>
+      <xs:attribute name="string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="image">
+    <xs:complexType>
+      <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="html">
+    <xs:complexType mixed="true">
+      <xs:group minOccurs="0" maxOccurs="unbounded" ref="any"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="label">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:group ref="overload"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="notebook"/>
+          <xs:element ref="field"/>
+          <xs:element ref="group"/>
+          <xs:element ref="button"/>
+          <xs:element ref="label"/>
+          <xs:element ref="separator"/>
+          <xs:element ref="image"/>
+          <xs:element ref="form"/>
+          <xs:element ref="dashboard"/>
+          <xs:element ref="filter"/>
+          <xs:element ref="html"/>
+          <xs:element ref="newline"/>
+          <xs:element ref="properties"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attributeGroup ref="overload"/>
+      <xs:attributeGroup ref="access_rights"/>
+      <xs:attributeGroup ref="modifiable"/>
+      <xs:attribute name="invisible"/>
+      <xs:attribute name="align"/>
+      <xs:attribute name="nolabel"/>
+      <xs:attribute name="colspan"/>
+      <xs:attribute name="string"/>
+      <xs:attribute name="angle"/>
+      <xs:attribute name="fill"/>
+      <xs:attribute name="help"/>
+      <xs:attribute name="width"/>
+      <xs:attribute name="wrap"/>
+      <xs:attribute name="name"/>
+      <xs:attribute name="for"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="level">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="field"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="html"/>
+      </xs:sequence>
+      <xs:attribute name="object"/>
+      <xs:attribute name="link"/>
+      <xs:attribute name="domain"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="gantt">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element minOccurs="0" ref="level"/>
+        <xs:element minOccurs="0" ref="field"/>
+        <xs:element minOccurs="0" ref="html"/>
+      </xs:sequence>
+      <xs:attribute name="mode">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="day"/>
+            <xs:enumeration value="3days"/>
+            <xs:enumeration value="week"/>
+            <xs:enumeration value="3weeks"/>
+            <xs:enumeration value="month"/>
+            <xs:enumeration value="3months"/>
+            <xs:enumeration value="year"/>
+            <xs:enumeration value="3years"/>
+            <xs:enumeration value="5years"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="create"/>
+      <xs:attribute name="delete"/>
+      <xs:attribute name="edit"/>
+      <xs:attribute name="color"/>
+      <xs:attribute name="date_delay"/>
+      <xs:attribute name="day_length"/>
+      <xs:attribute name="date_start"/>
+      <xs:attribute name="date_stop"/>
+      <xs:attribute name="date_string"/>
+      <xs:attribute name="string"/>
+      <xs:attribute name="default_group_by"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="any">
+    <xs:sequence>
+      <xs:any processContents="skip"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="page">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="overload"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="newline"/>
+          <xs:element ref="properties"/>
+          <xs:element ref="label"/>
+          <xs:element ref="field"/>
+          <xs:element ref="group"/>
+          <xs:element ref="separator"/>
+          <xs:element ref="button"/>
+          <xs:element ref="form"/>
+          <xs:element ref="page"/>
+          <xs:element ref="notebook"/>
+          <xs:element ref="dashboard"/>
+          <xs:element ref="filter"/>
+          <xs:element ref="html"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attributeGroup ref="overload"/>
+      <xs:attributeGroup ref="access_rights"/>
+      <xs:attributeGroup ref="modifiable"/>
+      <xs:attribute name="string"/>
+      <xs:attribute name="name"/>
+      <xs:attribute name="attrs"/>
+      <xs:attribute name="invisible"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="notebook">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="overload"/>
+        <xs:element maxOccurs="unbounded" ref="page"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="overload"/>
+      <xs:attribute name="colspan"/>
+      <xs:attribute name="tabpos">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="up"/>
+            <xs:enumeration value="down"/>
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="separator">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="overload"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="separator"/>
+          <xs:element ref="button"/>
+          <xs:element ref="field"/>
+          <xs:element ref="label"/>
+          <xs:element ref="group"/>
+          <xs:element ref="filter"/>
+          <xs:element ref="html"/>
+          <xs:element ref="properties"/>
+          <xs:element ref="newline"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attributeGroup ref="overload"/>
+      <xs:attributeGroup ref="access_rights"/>
+      <xs:attributeGroup ref="modifiable"/>
+      <xs:attribute name="invisible"/>
+      <xs:attribute name="name"/>
+      <xs:attribute name="colspan"/>
+      <xs:attribute name="rowspan"/>
+      <xs:attribute name="string"/>
+      <xs:attribute name="col"/>
+      <xs:attribute name="select"/>
+      <xs:attribute name="orientation"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="xpath">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="overload"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:group ref="any"/>
+          <xs:element ref="button"/>
+          <xs:element ref="html"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="expr"/>
+      <xs:attributeGroup ref="overload"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="data">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="form"/>
+        <xs:element ref="tree"/>
+        <xs:element ref="field"/>
+        <xs:element ref="label"/>
+        <xs:element ref="separator"/>
+        <xs:element ref="notebook"/>
+        <xs:element ref="page"/>
+        <xs:element ref="xpath"/>
+        <xs:element ref="button"/>
+        <xs:element ref="group"/>
+        <xs:element ref="filter"/>
+        <xs:element ref="graph"/>
+        <xs:element ref="html"/>
+        <xs:element ref="newline"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="field">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="overload"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="diagram"/>
+          <xs:element ref="kanban"/>
+          <xs:element ref="form"/>
+          <xs:element ref="data"/>
+          <xs:element ref="tree"/>
+          <xs:element ref="field"/>
+          <xs:element ref="label"/>
+          <xs:element ref="separator"/>
+          <xs:element ref="xpath"/>
+          <xs:element ref="button"/>
+          <xs:element ref="group"/>
+          <xs:element ref="graph"/>
+          <xs:element ref="filter"/>
+          <xs:element ref="notebook"/>
+          <xs:element ref="html"/>
+          <xs:element ref="newline"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="name" use="required"/>
+      <xs:attributeGroup ref="overload"/>
+      <xs:attributeGroup ref="access_rights"/>
+      <xs:attributeGroup ref="modifiable"/>
+      <xs:attribute name="domain_filter"/>
+      <xs:attribute name="attrs"/>
+      <xs:attribute name="string"/>
+      <xs:attribute name="completion"/>
+      <xs:attribute name="width"/>
+      <xs:attribute name="type"/>
+      <xs:attribute name="ref"/>
+      <xs:attribute name="eval"/>
+      <xs:attribute name="search"/>
+      <xs:attribute name="model"/>
+      <xs:attribute name="use"/>
+      <xs:attribute name="on_change"/>
+      <xs:attribute name="domain"/>
+      <xs:attribute name="filter_domain"/>
+      <xs:attribute name="invisible"/>
+      <xs:attribute name="password"/>
+      <xs:attribute name="comparator"/>
+      <xs:attribute name="sum"/>
+      <xs:attribute name="bold"/>
+      <xs:attribute name="avg"/>
+      <xs:attribute name="select"/>
+      <xs:attribute name="group"/>
+      <xs:attribute name="operator"/>
+      <xs:attribute name="colspan"/>
+      <xs:attribute name="nolabel"/>
+      <xs:attribute name="default_get"/>
+      <xs:attribute name="required"/>
+      <xs:attribute name="readonly"/>
+      <xs:attribute name="view_mode"/>
+      <xs:attribute name="widget"/>
+      <xs:attribute name="context"/>
+      <xs:attribute name="states"/>
+      <xs:attribute name="digits"/>
+      <xs:attribute name="icon"/>
+      <xs:attribute name="mode"/>
+      <xs:attribute name="img_width"/>
+      <xs:attribute name="img_height"/>
+      <xs:attribute name="size"/>
+      <xs:attribute name="filename"/>
+      <xs:attribute name="height"/>
+      <xs:attribute name="rowspan"/>
+      <xs:attribute name="align"/>
+      <xs:attribute name="selection"/>
+      <xs:attribute name="default_focus"/>
+      <xs:attribute name="filters"/>
+      <xs:attribute name="statusbar_visible"/>
+      <xs:attribute name="statusbar_colors"/>
+      <xs:attribute name="options"/>
+      <xs:attribute name="placeholder"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="group">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="overload"/>
+        <xs:group ref="container"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="overload"/>
+      <xs:attributeGroup ref="access_rights"/>
+      <xs:attributeGroup ref="modifiable"/>
+      <xs:attribute name="attrs"/>
+      <xs:attribute name="colspan"/>
+      <xs:attribute name="rowspan"/>
+      <xs:attribute name="expand"/>
+      <xs:attribute name="states"/>
+      <xs:attribute name="string"/>
+      <xs:attribute name="fill"/>
+      <xs:attribute name="height"/>
+      <xs:attribute name="width"/>
+      <xs:attribute name="name"/>
+      <xs:attribute name="color"/>
+      <xs:attribute name="invisible"/>
+      <xs:attributeGroup ref="container"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="calendar">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="field"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="html"/>
+      </xs:sequence>
+      <xs:attribute name="string"/>
+      <xs:attribute name="color"/>
+      <xs:attribute name="date_start"/>
+      <xs:attribute name="date_stop"/>
+      <xs:attribute name="day_length"/>
+      <xs:attribute name="date_delay"/>
+      <xs:attribute name="type"/>
+      <xs:attribute name="mode"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="graph">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="field"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="html"/>
+      </xs:sequence>
+      <xs:attribute name="string"/>
+      <xs:attribute name="orientation"/>
+      <xs:attribute name="type"/>
+      <xs:attribute name="color"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="button">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="overload"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="form"/>
+          <xs:element ref="field"/>
+          <xs:element ref="tree"/>
+          <xs:element ref="notebook"/>
+          <xs:element ref="graph"/>
+          <xs:element ref="calendar"/>
+          <xs:element ref="gantt"/>
+          <xs:element ref="xpath"/>
+          <xs:element ref="page"/>
+          <xs:element ref="separator"/>
+          <xs:element ref="button"/>
+          <xs:element ref="group"/>
+          <xs:element ref="filter"/>
+          <xs:element ref="html"/>
+          <xs:element ref="properties"/>
+          <xs:element ref="newline"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attributeGroup ref="overload"/>
+      <xs:attributeGroup ref="access_rights"/>
+      <xs:attributeGroup ref="modifiable"/>
+      <xs:attribute name="attrs"/>
+      <xs:attribute name="invisible"/>
+      <xs:attribute name="name"/>
+      <xs:attribute name="icon"/>
+      <xs:attribute name="string"/>
+      <xs:attribute name="states"/>
+      <xs:attribute name="type"/>
+      <xs:attribute name="special"/>
+      <xs:attribute name="align"/>
+      <xs:attribute name="colspan"/>
+      <xs:attribute name="target"/>
+      <xs:attribute name="readonly"/>
+      <xs:attribute name="context"/>
+      <xs:attribute name="confirm"/>
+      <xs:attribute name="help"/>
+      <xs:attribute name="class"/>
+      <xs:attribute name="default_focus"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="filter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="overload"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="form"/>
+          <xs:element ref="field"/>
+          <xs:element ref="tree"/>
+          <xs:element ref="notebook"/>
+          <xs:element ref="graph"/>
+          <xs:element ref="calendar"/>
+          <xs:element ref="gantt"/>
+          <xs:element ref="xpath"/>
+          <xs:element ref="page"/>
+          <xs:element ref="separator"/>
+          <xs:element ref="button"/>
+          <xs:element ref="filter"/>
+          <xs:element ref="html"/>
+          <xs:element ref="properties"/>
+          <xs:element ref="newline"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attributeGroup ref="overload"/>
+      <xs:attributeGroup ref="access_rights"/>
+      <xs:attributeGroup ref="modifiable"/>
+      <xs:attribute name="attrs"/>
+      <xs:attribute name="invisible"/>
+      <xs:attribute name="name"/>
+      <xs:attribute name="separator"/>
+      <xs:attribute name="icon"/>
+      <xs:attribute name="string"/>
+      <xs:attribute name="type"/>
+      <xs:attribute name="align"/>
+      <xs:attribute name="colspan"/>
+      <xs:attribute name="readonly"/>
+      <xs:attribute name="context"/>
+      <xs:attribute name="help"/>
+      <xs:attribute name="domain"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
